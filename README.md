@@ -5,18 +5,20 @@ A very useful but unglamorous tool, a "dropper" is a simple level editor that le
 
 This is a pair of Python scripts that allow you to use Maya or Blender as a dropper. It will export any custom attributes that you set, plus you can choose either JSON or XML for the output format.
 
+---
 
 written in Maya 2017
-open in Script Editor window, then Execute
+<br>open in Script Editor window, then Execute
 
 Saves info about objects in the scene:
-name, position, rotation, scale, custom attributes
-Select either XML or JSON for the data format. 
+<br>name, position, rotation, scale, custom attributes
+<br>Select either XML or JSON for the data format. 
 
+---
 
 written in Blender 2.77
-open in Text Editor view, then Run Script
+<br>open in Text Editor view, then Run Script
 
 Saves info about objects in the scene:
-name, position, rotation, scale, custom properties
-Select either XML or JSON for the data format. 
+<br>name, position, rotation, scale, custom properties
+<br>Select either XML or JSON for the data format. 
