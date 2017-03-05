@@ -1,7 +1,7 @@
 '''
 Dropper
 by Joseph Hocking www.newarteest.com
-MIT license
+GPL license https://www.blender.org/support/faq/
 
 written in Blender 2.77
 open in Text Editor view, then Run Script
