@@ -1,5 +1,4 @@
 # dropper4python
-MIT license
 
 A very useful but unglamorous tool, a "dropper" is a simple level editor that lets you position objects in 3D space and then writes all the positions/rotations/etc. to an easily parsed text file. Your game can then read this file to put everything in the same place.
 
@@ -8,6 +7,7 @@ This is a pair of Python scripts that allow you to use either Maya or Blender as
 ---
 
 written in Maya 2017
+<br>MIT license
 <br>open in Script Editor window, then Execute
 
 Saves info about objects in the scene:
@@ -17,6 +17,7 @@ Saves info about objects in the scene:
 ---
 
 written in Blender 2.77
+<br>GPL license https://www.blender.org/support/faq/
 <br>open in Text Editor view, then Run Script
 
 Saves info about objects in the scene:
