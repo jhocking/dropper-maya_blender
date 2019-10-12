@@ -16,9 +16,10 @@ Saves info about objects in the scene:
 
 ---
 
-written in Blender 2.77
+code for Blender 2.8 (originally 2.77)
 <br>GPL license https://www.blender.org/support/faq/
-<br>open in Text Editor view, then Run Script
+<br>install in Edit > Preferences > Add-ons
+<br>once installed: File > Export > Dropper
 
 Saves info about objects in the scene:
 <br>name, position, rotation, scale, custom properties
