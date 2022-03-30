@@ -5,8 +5,8 @@ A very useful but unglamorous tool, a "dropper" is a simple level editor that le
 This is a pair of Python scripts that allow you to use either Maya or Blender as a dropper. It will export any custom attributes that you set, plus you can choose either JSON or XML for the output format. The included scene demonstrates how to setup objects for export.
 
 also available at:
-https://jhocking.itch.io/dropper-for-maya
-https://jhocking.itch.io/dropper-for-blender
+<br>https://jhocking.itch.io/dropper-for-maya
+<br>https://jhocking.itch.io/dropper-for-blender
 
 ---
 
