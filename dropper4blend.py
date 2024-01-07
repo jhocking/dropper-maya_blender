@@ -55,12 +55,11 @@ def build_json():
         entity["rotation"] = {"x":obj.rotation_euler.x, "y":obj.rotation_euler.y, "z":obj.rotation_euler.z}
         entity["scale"] = {"x":obj.scale.x, "y":obj.scale.y, "z":obj.scale.z}
         # custom properties
-        if len(obj.keys()) > 1:
-            for k in obj.keys():
-                if k not in "_RNA_UI":
-                    prop = obj[k]
-                    if isinstance(prop, int) or isinstance(prop, float) or isinstance(prop, str):
-                        entity[k] = obj[k]
+        for k in obj.keys():
+            if k not in "_RNA_UI":
+                prop = obj[k]
+                if isinstance(prop, int) or isinstance(prop, float) or isinstance(prop, str):
+                    entity[k] = obj[k]
         dict["entities"].append(entity)
         
     return json.dumps(dict, indent=4, sort_keys=True)
@@ -77,12 +76,11 @@ def build_xml():
         et.SubElement(e, "rotation").attrib = {"x":str(obj.rotation_euler.x), "y":str(obj.rotation_euler.y), "z":str(obj.rotation_euler.z)}
         et.SubElement(e, "scale").attrib = {"x":str(obj.scale.x), "y":str(obj.scale.y), "z":str(obj.scale.z)}
         # custom properties
-        if len(obj.keys()) > 1:
-            for k in obj.keys():
-                if k not in "_RNA_UI":
-                    prop = obj[k]
-                    if isinstance(prop, int) or isinstance(prop, float) or isinstance(prop, str):
-                        et.SubElement(e, k).text = str(obj[k])
+        for k in obj.keys():
+            if k not in "_RNA_UI":
+                prop = obj[k]
+                if isinstance(prop, int) or isinstance(prop, float) or isinstance(prop, str):
+                    et.SubElement(e, k).text = str(obj[k])
         root.append(e)
     
     indent(root)
