@@ -8,6 +8,7 @@ open in Script Editor window, then Execute
 
 Saves info about objects in the scene:
 name, position, rotation, scale, custom attributes
+(ignore objects with ~[ somewhere in the name)
 Select either XML or JSON for the data format.
 '''
 
@@ -48,22 +49,21 @@ def build_json():
         if (cmds.nodeType(cmds.listRelatives(obj, shapes=True)) == "camera" and
         (obj == "persp" or obj == "front" or obj == "side" or obj == "top")):
             continue
-            
-        entity = {"name":obj}
-        pos = cmds.xform(obj, query=True, translation=True)
-        entity["position"] = {"x":pos[0], "y":pos[1], "z":pos[2]}
-        rot = cmds.xform(obj, query=True, rotation=True)
-        entity["rotation"] = {"x":rot[0], "y":rot[1], "z":rot[2]}
-        scl = cmds.xform(obj, query=True, scale=True, relative=True)
-        entity["scale"] = {"x":scl[0], "y":scl[1], "z":scl[2]}
         
-        # custom attributes
-        attributes = cmds.listAttr(obj, userDefined=True)
-        if (attributes != None):
-            for attr in attributes:
-                entity[attr] = cmds.getAttr(obj+"."+attr)
-                
-        dict["entities"].append(entity)
+        if "~[" not in obj.name:
+            entity = {"name":obj}
+            pos = cmds.xform(obj, query=True, translation=True)
+            entity["position"] = {"x":pos[0], "y":pos[1], "z":pos[2]}
+            rot = cmds.xform(obj, query=True, rotation=True)
+            entity["rotation"] = {"x":rot[0], "y":rot[1], "z":rot[2]}
+            scl = cmds.xform(obj, query=True, scale=True, relative=True)
+            entity["scale"] = {"x":scl[0], "y":scl[1], "z":scl[2]}
+            # custom attributes
+            attributes = cmds.listAttr(obj, userDefined=True)
+            if (attributes != None):
+                for attr in attributes:
+                    entity[attr] = cmds.getAttr(obj+"."+attr)
+            dict["entities"].append(entity)
         
     return json.dumps(dict, indent=4, sort_keys=True)
 #----- end func -----
@@ -79,23 +79,22 @@ def build_xml():
         if (cmds.nodeType(cmds.listRelatives(obj, shapes=True)) == "camera" and
         (obj == "persp" or obj == "front" or obj == "side" or obj == "top")):
             continue
-            
-        e = et.Element("entity")
-        et.SubElement(e, "name").text = obj
-        pos = cmds.xform(obj, query=True, translation=True)
-        et.SubElement(e, "position").attrib = {"x":str(pos[0]), "y":str(pos[1]), "z":str(pos[2])}
-        rot = cmds.xform(obj, query=True, rotation=True)
-        et.SubElement(e, "rotation").attrib = {"x":str(rot[0]), "y":str(rot[1]), "z":str(rot[2])}
-        scl = cmds.xform(obj, query=True, scale=True, relative=True)
-        et.SubElement(e, "scale").attrib = {"x":str(scl[0]), "y":str(scl[1]), "z":str(scl[2])}
         
-        # custom attributes
-        attributes = cmds.listAttr(obj, userDefined=True)
-        if (attributes != None):
-            for attr in attributes:
-                et.SubElement(e, attr).text = str(cmds.getAttr(obj+"."+attr))
-                
-        root.append(e)
+        if "~[" not in obj.name:
+            e = et.Element("entity")
+            et.SubElement(e, "name").text = obj
+            pos = cmds.xform(obj, query=True, translation=True)
+            et.SubElement(e, "position").attrib = {"x":str(pos[0]), "y":str(pos[1]), "z":str(pos[2])}
+            rot = cmds.xform(obj, query=True, rotation=True)
+            et.SubElement(e, "rotation").attrib = {"x":str(rot[0]), "y":str(rot[1]), "z":str(rot[2])}
+            scl = cmds.xform(obj, query=True, scale=True, relative=True)
+            et.SubElement(e, "scale").attrib = {"x":str(scl[0]), "y":str(scl[1]), "z":str(scl[2])}
+            # custom attributes
+            attributes = cmds.listAttr(obj, userDefined=True)
+            if (attributes != None):
+                for attr in attributes:
+                    et.SubElement(e, attr).text = str(cmds.getAttr(obj+"."+attr))
+            root.append(e)
         
     indent(root)
     return et.tostring(root).decode("utf-8")
