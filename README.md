@@ -16,6 +16,7 @@ written in Maya 2017
 
 Saves info about objects in the scene:
 <br>name, position, rotation, scale, custom attributes
+<br>(ignore objects with ~[ somewhere in the name)
 <br>Select either XML or JSON for the data format. 
 
 ---
@@ -27,4 +28,5 @@ code for Blender 2.8 (originally 2.77)
 
 Saves info about objects in the scene:
 <br>name, position, rotation, scale, custom properties
+<br>(ignore objects with ~[ somewhere in the name)
 <br>Select either XML or JSON for the data format. 
