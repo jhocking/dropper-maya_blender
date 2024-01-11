@@ -14,6 +14,7 @@ GPL license https://www.blender.org/support/faq/
 
 Saves info about objects in the scene:
 name, position, rotation, scale, custom properties
+(ignore objects with ~[ somewhere in the name)
 Select either XML or JSON for the data format.
 '''
 
@@ -50,17 +51,18 @@ def build_json():
     dict["entities"] = []
     
     for obj in bpy.data.objects:
-        entity = {"name":obj.name}
-        entity["position"] = {"x":obj.location.x, "y":obj.location.y, "z":obj.location.z}
-        entity["rotation"] = {"x":obj.rotation_euler.x, "y":obj.rotation_euler.y, "z":obj.rotation_euler.z}
-        entity["scale"] = {"x":obj.scale.x, "y":obj.scale.y, "z":obj.scale.z}
-        # custom properties
-        for k in obj.keys():
-            if k not in "_RNA_UI":
-                prop = obj[k]
-                if isinstance(prop, int) or isinstance(prop, float) or isinstance(prop, str):
-                    entity[k] = obj[k]
-        dict["entities"].append(entity)
+        if "~[" not in obj.name:
+            entity = {"name":obj.name}
+            entity["position"] = {"x":obj.location.x, "y":obj.location.y, "z":obj.location.z}
+            entity["rotation"] = {"x":obj.rotation_euler.x, "y":obj.rotation_euler.y, "z":obj.rotation_euler.z}
+            entity["scale"] = {"x":obj.scale.x, "y":obj.scale.y, "z":obj.scale.z}
+            # custom properties
+            for k in obj.keys():
+                if k not in "_RNA_UI":
+                    prop = obj[k]
+                    if isinstance(prop, int) or isinstance(prop, float) or isinstance(prop, str):
+                        entity[k] = obj[k]
+            dict["entities"].append(entity)
         
     return json.dumps(dict, indent=4, sort_keys=True)
 #----- end func -----
@@ -70,18 +72,19 @@ def build_xml():
     root = et.Element("entities")
     
     for obj in bpy.data.objects:
-        e = et.Element("entity")
-        et.SubElement(e, "name").text = obj.name
-        et.SubElement(e, "position").attrib = {"x":str(obj.location.x), "y":str(obj.location.y), "z":str(obj.location.z)}
-        et.SubElement(e, "rotation").attrib = {"x":str(obj.rotation_euler.x), "y":str(obj.rotation_euler.y), "z":str(obj.rotation_euler.z)}
-        et.SubElement(e, "scale").attrib = {"x":str(obj.scale.x), "y":str(obj.scale.y), "z":str(obj.scale.z)}
-        # custom properties
-        for k in obj.keys():
-            if k not in "_RNA_UI":
-                prop = obj[k]
-                if isinstance(prop, int) or isinstance(prop, float) or isinstance(prop, str):
-                    et.SubElement(e, k).text = str(obj[k])
-        root.append(e)
+        if "~[" not in obj.name:
+            e = et.Element("entity")
+            et.SubElement(e, "name").text = obj.name
+            et.SubElement(e, "position").attrib = {"x":str(obj.location.x), "y":str(obj.location.y), "z":str(obj.location.z)}
+            et.SubElement(e, "rotation").attrib = {"x":str(obj.rotation_euler.x), "y":str(obj.rotation_euler.y), "z":str(obj.rotation_euler.z)}
+            et.SubElement(e, "scale").attrib = {"x":str(obj.scale.x), "y":str(obj.scale.y), "z":str(obj.scale.z)}
+            # custom properties
+            for k in obj.keys():
+                if k not in "_RNA_UI":
+                    prop = obj[k]
+                    if isinstance(prop, int) or isinstance(prop, float) or isinstance(prop, str):
+                        et.SubElement(e, k).text = str(obj[k])
+            root.append(e)
     
     indent(root)
     return et.tostring(root).decode("utf-8")
